@@ -65,6 +65,29 @@ class UserViewTestCase(TestCase):
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, "/users")
 
+    def test_show_new_user_form(self):
+        with app.test_client() as c:
+            response = c.get('/users/new')
+            html = response.get_data(as_text=True)
+            self.assertIn('<input type="submit" value="Add"',html)
+            self.assertEqual(response.status_code,200)
+
+    def test_process_edit_form(self):
+        with app.test_client() as c:
+
+
+
+            # self.user_id = test_user.id
+            response = c.post(f'/users/{self.user_id}/edit')
+            self.assertEqual(response.status_code,302)
+
+
+
+
+
+
+
+
 
 
 
