@@ -17,32 +17,29 @@ connect_db(app)
 
 # Routes
 
+
 @app.get("/")
 def redirect_to_users():
     """Redirect to list of users"""
 
     return redirect(
         "/users"
-        )
+    )
 
 
 @app.get("/users")
 def show_all_users():
     """
-    Show all users
-    All users will have a link with their name on it
-    Has link to the new-user form
+    Show all users with links to individual user pages
+    Includes button to add new user
     """
 
     users = User.query.all()
 
     return render_template(
         'users.html',
-        users = users
-
-        # [<User 1>, <User 2>, <User 3>]
-        # user_id = user_id, <- add this to HTML eventually as all users need a link
-        )
+        users=users
+    )
 
 
 @app.get("/users/new")
@@ -51,27 +48,30 @@ def show_new_user_form():
 
     return render_template(
         "/new-user.html"
-        )
+    )
+
 
 @app.post("/users/new")
 def process_new_user_form():
     """
-    process the add user form, adding a new user and redirects to /users
+    Process the add user form
+    Adds a new user and redirects to users page
     """
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
     image_url = request.form["image_url"]
 
-    user = User(first_name = first_name,
-                last_name = last_name,
-                image_url = image_url
+    user = User(first_name=first_name,
+                last_name=last_name,
+                image_url=image_url
                 )
 
     db.session.add(user)
     db.session.commit()
 
-    return redirect("/users/")
+    return redirect("/users")
+
 
 @app.get("/users/<int:user_id>/")
 def show_user_profile_page(user_id):
@@ -91,30 +91,46 @@ def show_user_profile_page(user_id):
 @app.get("/users/<int:user_id>/edit")
 def show_user_edit_form(user_id):
     """
-   shows the user edit form
-#     """
+    Shows the user edit form
+#   """
 
     user = User.query.get_or_404(user_id)
 
-
-
-    return render_template ('user-edit-page.html',
-                            user = user)
+    return render_template('user-edit-page.html',
+                           user=user)
 
 
 @app.post("/users/<int:user_id>/edit")
-def something():
+def process_edit_form(user_id):
     """
-    show the edit page for a user
-    Have a cancel button that returns to details page for a user
-    Have a save button that updates the user
+    Process the edit form
+    Returns the user to the users page
+    """
 
-#     """
+    user = User.query.get(user_id)
+
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    image_url = request.form["image_url"]
+
+    user.first_name = first_name
+    user.last_name = last_name
+    user.image_url = image_url
+
+    db.session.commit()
+
+    return redirect("/users")
 
 
-# @app.post("/users/int:<user_id>/delete")
-# def something():
-#     """
-#     Delete the user
+@app.post("/users/<int:user_id>/delete")
+def delete_user(user_id):
+    """
+    Deletes user
+    Redirects to users page
+    """
+    user = User.query.get(user_id)
 
-#     """
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/users")

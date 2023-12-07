@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 db = SQLAlchemy()
 
+DEFAULT_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/en/thumb/2/25/New_York_Knicks_logo.svg/800px-New_York_Knicks_logo.svg.png'
+
 def connect_db(app):
     """Connect to database."""
     app.app_context().push()
@@ -37,5 +39,6 @@ class User(db.Model):
 
     image_url = db.Column(
         db.Text,
-        nullable=True
+        nullable=True,
+        default = DEFAULT_IMAGE_URL
     )

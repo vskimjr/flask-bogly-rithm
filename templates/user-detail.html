@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <body>
-<h2>{{user.first_name}} {{user.last_name}}</h2>
+  <h2>{{user.first_name}} {{user.last_name}}</h2>
 
-<section>
+  <section>
 
-<aside>
-<img src="{{user.image_url}}">
-</aside>
+    <aside>
+      <img src="{{user.image_url}}">
+    </aside>
 
+    <form action="/users/{{user.id}}/edit" method="get">
+      <button>Edit</button>
+    </form>
 
+    <form action="/users/{{user.id}}/delete" method="post">
+      <button>Delete</button>
+    </form>
 
-
-<button href="/users/{{user.id}}/edit">Edit</button><button>Delete</button>
-</section>
+  </section>
 
 </body>
 {% endblock %}

@@ -58,3 +58,15 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertIn("test1_first", html)
             self.assertIn("test1_last", html)
+
+    def test_redirect_to_users(self):
+        with app.test_client() as c:
+            response = c.get("/")
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.location, "/users")
+
+
+
+
+
+
