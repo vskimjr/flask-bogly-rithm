@@ -2,10 +2,12 @@
 
 {% block content %}
 <h2>Users</h2>
-{% for user in users%}
+{% for user in users %}
 <ul>
-  <li>{{% user %}}</li>
+  <li>{{ % user % }}</li>
 </ul>
 {% endfor %}
+
+
 
 {% endblock %}

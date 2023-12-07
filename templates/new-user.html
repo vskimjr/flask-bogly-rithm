@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% content block %}
+<form action="/users/int:<user_id>" method="get">
+   <label for="first_name">First Name</label>
+   <input type="text" name="first_name" placeholder="Enter a first name" required>
+   <label for="last_name">Last Name</label>
+   <input type="text" name="last_name" placeholder="Enter a last name" required>
+   <label for="image_URL">Image URL</label>
+   <input type="url" name="image_URL" placeholder="Enter image link" required>
+   <input type="submit" value="Add">
+</form>
+
+{% endblock %}
+

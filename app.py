@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask
+from flask import Flask, redirect, render_template
 from models import connect_db
 
 app = Flask(__name__)
@@ -20,7 +20,12 @@ connect_db(app)
 def something():
     """Redirect to list of users"""
 
-    return render_template("index.html")
+
+    return redirect(
+        "/users/"
+        # "index.html"
+        # users = users
+        )
 
 
 
@@ -30,7 +35,14 @@ def something():
     Show all users
     All users will have a link with their name on it
     Has link to the add-user form
+
     """
+
+    return render_template(
+        'index.html',
+        # users = users,
+        # user_id = user_id,
+        )
 
 @app.get("/users/new")
 def something():
