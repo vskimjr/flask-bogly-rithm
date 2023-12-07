@@ -61,11 +61,11 @@ def process_new_user_form():
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    image_URL = request.form["image_URL"]
+    image_url = request.form["image_url"]
 
     user = User(first_name = first_name,
                 last_name = last_name,
-                image_url = image_URL
+                image_url = image_url
                 )
 
     db.session.add(user)
@@ -73,14 +73,19 @@ def process_new_user_form():
 
     return redirect("/users/")
 
-# @app.get("/users/int:<user_id>/")
-# def something():
-#     """
-#     Shows information about the given user
-#     Has an edit button that redirects to the edit page
-#     Has a delete button to delete the user
+@app.get("/users/int:<user_id>/")
+def show_user_profile_page(user_id):
+    """
+    Shows information about the given user
+    Has an edit button that redirects to the edit page
+    Has a delete button to delete the user
+    """
 
-#     """
+    user = User.query.get_or_404(user_id)
+
+    return render_template('user.html',
+                           user=user)
+
 
 # @app.post("/users/int:<user_id>/edit")
 # def something():
