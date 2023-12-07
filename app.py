@@ -39,7 +39,7 @@ def show_all_users():
     return render_template(
         'users.html',
         users = users
-        
+
         # [<User 1>, <User 2>, <User 3>]
         # user_id = user_id, <- add this to HTML eventually as all users need a link
         )
@@ -65,13 +65,13 @@ def process_new_user_form():
 
     user = User(first_name = first_name,
                 last_name = last_name,
-                image_URL = image_URL
+                image_url = image_URL
                 )
 
     db.session.add(user)
     db.session.commit()
 
-    return redirect('/users')
+    return redirect("/users/")
 
 # @app.get("/users/int:<user_id>/")
 # def something():
