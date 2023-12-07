@@ -22,11 +22,11 @@ def redirect_to_users():
     """Redirect to list of users"""
 
     return redirect(
-        "/users/"
+        "/users"
         )
 
 
-@app.get("/users/")
+@app.get("/users")
 def show_all_users():
     """
     Show all users
@@ -73,7 +73,7 @@ def process_new_user_form():
 
     return redirect("/users/")
 
-@app.get("/users/int:<user_id>/")
+@app.get("/users/<int:user_id>/")
 def show_user_profile_page(user_id):
     """
     Shows information about the given user
@@ -83,16 +83,31 @@ def show_user_profile_page(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    return render_template('user.html',
-                           user=user)
+    return render_template('user-detail.html',
+                           user=user
+                           )
 
 
-# @app.post("/users/int:<user_id>/edit")
-# def something():
+@app.get("/users/<int:user_id>/edit")
+def show_user_edit_form(user_id):
+    """
+   shows the user edit form
 #     """
-#     show the edit page for a user
-#     Have a cancel button that returns to details page for a user
-#     Have a save button that updates the user
+
+    user = User.query.get_or_404(user_id)
+
+
+
+    return render_template ('user-edit-page.html',
+                            user = user)
+
+
+@app.post("/users/<int:user_id>/edit")
+def something():
+    """
+    show the edit page for a user
+    Have a cancel button that returns to details page for a user
+    Have a save button that updates the user
 
 #     """
 
