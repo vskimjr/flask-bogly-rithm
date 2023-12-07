@@ -39,6 +39,8 @@ def show_all_users():
     return render_template(
         'users.html',
         users = users
+        
+        # [<User 1>, <User 2>, <User 3>]
         # user_id = user_id, <- add this to HTML eventually as all users need a link
         )
 
