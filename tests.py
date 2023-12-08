@@ -102,6 +102,30 @@ class UserViewTestCase(TestCase):
 
             self.assertEqual(response.status_code, 200)
             self.assertIn('Slim', html)
+            self.assertIn('Charles', html)
+
+
+    def test_process_new_user_form(self):
+        """tests if new user form adds new user"""
+        with app.test_client() as c:
+            response = c.post(
+                '/users/new',
+                data={'first_name': 'Slim',
+                      'last_name': 'Charles',
+                      'image_url': 'https://static.wikia.nocookie.net/thewire/images/9/93/Slim_Charles.jpg/revision/latest?cb=20200316063003'},
+                follow_redirects=True)
+
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('Slim', html)
+            self.assertIn('Charles', html)
+
+
+
+
+
+
 
             # add a few more asserts. See if 'Charles' is there
             # Test adding. We tested editing. We should test for add if we give image, not give an image, etc ***
