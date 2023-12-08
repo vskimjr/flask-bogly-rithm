@@ -20,10 +20,12 @@ connect_db(app)
 
 @app.get("/")
 def redirect_to_users():
+    # This is just the homepage so maybe index() or root()
     """Redirect to list of users"""
 
     return redirect(
         "/users"
+        # If its a view function thats like this, it should be one line
     )
 
 
@@ -35,6 +37,9 @@ def show_all_users():
     """
 
     users = User.query.all()
+    # order this by something just so that its not a random blob of users
+    # We want the order to make sense User.query.order_by(User.first_name)
+
 
     return render_template(
         'users.html',
@@ -48,6 +53,7 @@ def show_new_user_form():
 
     return render_template(
         "/new-user.html"
+        # same line for simple return statement
     )
 
 
@@ -60,12 +66,13 @@ def process_new_user_form():
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    image_url = request.form["image_url"]
+    image_url = request.form["image_url"] or None
 
     user = User(first_name=first_name,
                 last_name=last_name,
                 image_url=image_url
-                )
+            )
+    # Closing paren should line up with the thing it is closing
 
     db.session.add(user)
     db.session.commit()
@@ -85,6 +92,7 @@ def show_user_profile_page(user_id):
 
     return render_template('user-detail.html',
                            user=user
+                        #    Dave says maybe put 94 on 93 (all on one line)
                            )
 
 
@@ -98,6 +106,7 @@ def show_user_edit_form(user_id):
 
     return render_template('user-edit-page.html',
                            user=user)
+# be consistent with how you are closing your parens. Pattern match pattern match!
 
 
 @app.post("/users/<int:user_id>/edit")
@@ -109,6 +118,8 @@ def process_edit_form(user_id):
 
     user = User.query.get(user_id)
 
+    # change .get to .get_or_404
+
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
     image_url = request.form["image_url"]
@@ -116,6 +127,8 @@ def process_edit_form(user_id):
     user.first_name = first_name
     user.last_name = last_name
     user.image_url = image_url
+
+    # consolidate 121-127
 
     db.session.commit()
 
@@ -129,6 +142,8 @@ def delete_user(user_id):
     Redirects to users page
     """
     user = User.query.get(user_id)
+
+    # .get_or_404
 
     db.session.delete(user)
     db.session.commit()

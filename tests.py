@@ -1,11 +1,10 @@
+from models import DEFAULT_IMAGE_URL, User
+from app import app, db
+from unittest import TestCase
 import os
 
 os.environ["DATABASE_URL"] = "postgresql:///blogly_test"
 
-from unittest import TestCase
-
-from app import app, db
-from models import DEFAULT_IMAGE_URL, User
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
@@ -52,6 +51,11 @@ class UserViewTestCase(TestCase):
         db.session.rollback()
 
     def test_list_users(self):
+        """
+        Tests to see if users appear on users page
+        by testing if test_user appears on users page
+        """
+
         with app.test_client() as c:
             resp = c.get("/users")
             self.assertEqual(resp.status_code, 200)
@@ -60,36 +64,48 @@ class UserViewTestCase(TestCase):
             self.assertIn("test1_last", html)
 
     def test_redirect_to_users(self):
+        """
+        Tests if "/" correctly redirects to "/users"
+        """
+
         with app.test_client() as c:
             response = c.get("/")
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, "/users")
 
     def test_show_new_user_form(self):
+        """
+        Tests if new user form renders
+        """
+
         with app.test_client() as c:
             response = c.get('/users/new')
             html = response.get_data(as_text=True)
-            self.assertIn('<input type="submit" value="Add"',html)
-            self.assertEqual(response.status_code,200)
+            self.assertIn('<input type="submit" value="Add"', html)
+            # maybe look for something unique. Put a comment in /users/new html and then look for this comment
+            self.assertEqual(response.status_code, 200)
 
     def test_process_edit_form(self):
+        """
+        Test if edit user form properly processes edited user information
+        """
+
         with app.test_client() as c:
+            response = c.post(
+                f'/users/{self.user_id}/edit',
+                data={'first_name': 'Slim',
+                      'last_name': 'Charles',
+                      'image_url': 'https://static.wikia.nocookie.net/thewire/images/9/93/Slim_Charles.jpg/revision/latest?cb=20200316063003'},
+                follow_redirects=True)
 
+            html = response.get_data(as_text=True)
 
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('Slim', html)
 
-            # self.user_id = test_user.id
-            response = c.post(f'/users/{self.user_id}/edit')
-            self.assertEqual(response.status_code,302)
+            # add a few more asserts. See if 'Charles' is there
+            # Test adding. We tested editing. We should test for add if we give image, not give an image, etc ***
 
+            # Add test for /users/id is it showing the correct user?
 
-
-
-
-
-
-
-
-
-
-
-
+            # Test delete

@@ -40,5 +40,8 @@ class User(db.Model):
     image_url = db.Column(
         db.Text,
         nullable=True,
-        default = DEFAULT_IMAGE_URL
+        default=DEFAULT_IMAGE_URL
     )
+
+    # .String is used for stuff like first_name and stuff 
+    # db.Text is more for longform stuff like "give us comments on how our food is"
