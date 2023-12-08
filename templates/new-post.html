@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h2>Add Post for {{ user.first_name}} {{ user.last_name}}</h2>
+<form action="/users/{{user.id}}/posts/new" method="post">
+  <label for="title">Title</label>
+  <input type="text" name="title" id="title" required>
+  <label for="content">Content</label>
+  <input type="text" name="content" id="content" required>
+  <button type="submit">Add</button>
+
+</form>
+
+<form>
+  <button formaction="/users/{{user.id}}">Cancel</button>
+</form>
+
+
+<!-- 'required' is handled differently across browsers. We need to do some more checks -->
+
+{% endblock %}

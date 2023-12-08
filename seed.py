@@ -1,4 +1,4 @@
-from models import User, db
+from models import User, db, Post
 
 
 from app import app
@@ -21,11 +21,11 @@ db.session.add_all([comedian, comedian2, comedian3])
 
 db.session.commit()
 
-# post1 = Post(title="how to win Friends",content="don't be a jerk",id=comedian.id)
+post1 = Post(title="how to win Friends",content="don't be a jerk",user_id=comedian.id)
 
-# db.session.add_all([post1])
+db.session.add_all([post1])
 
-# db.session.commit()
+db.session.commit()
 
 
 

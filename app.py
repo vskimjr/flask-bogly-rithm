@@ -3,7 +3,7 @@
 import os
 
 from flask import Flask, redirect, render_template, request
-from models import connect_db, User, db
+from models import connect_db, User, Post, db
 
 
 app = Flask(__name__)
@@ -89,9 +89,11 @@ def show_user_profile_page(user_id):
     """
 
     user = User.query.get_or_404(user_id)
+    posts = Post.query.filter(Post.user_id == user_id)
 
     return render_template('user-detail.html',
-                           user=user
+                           user=user,
+                           posts=posts
                         #    Dave says maybe put 94 on 93 (all on one line)
                            )
 
@@ -149,3 +151,30 @@ def delete_user(user_id):
     db.session.commit()
 
     return redirect("/users")
+
+@app.get("/users/<int:user_id>/posts/new")
+def show_new_post_form(user_id):
+    """Shows new post form"""
+
+    user = User.query.get(user_id)
+
+    return render_template("/new-post.html", user = user)
+
+
+
+@app.post("/users/<int:user_id>/posts/new")
+def add_post(user_id):
+    """Handle add form; add post and redirect to the user detail page."""
+
+
+    post = Post(title=request.form["title"],
+                content=request.form["content"],
+            )
+    # Closing paren should line up with the thing it is closing
+
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+

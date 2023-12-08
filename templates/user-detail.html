@@ -24,5 +24,23 @@
 
   <!-- get in the habit of doing spaces between your moustache variables -->
 
+  <section>
+    <h3>Posts</h3>
+    <ul>
+      {% for post in posts %}
+      <li> <a href="/users/{{ post.id }}">{{ post.title }} </a>
+
+      </li>
+
+      {% endfor %}
+    </ul>
+
+
+  <form>
+    <button formaction="/users/{{user.id}}/posts/new" formmethod="get">ADD POST</button>
+  </form>
+
+  </section>
+
 </body>
 {% endblock %}
